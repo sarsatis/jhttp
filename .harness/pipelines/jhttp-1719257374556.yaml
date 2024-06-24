@@ -3,12 +3,6 @@ pipeline:
   name: Build jhttp
   orgIdentifier: default
   projectIdentifier: default_project
-  properties:
-    ci:
-      codebase:
-        build: <+input>
-        connectorRef: sarsatis
-        repoName: jhttp
   stages:
     - stage:
         identifier: build
@@ -19,6 +13,19 @@ pipeline:
           cloneCodebase: false
           execution:
             steps:
+              - step:
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
+                  spec:
+                    connectorRef: sarsatis
+                    repoName: jhttp
+                    cloneDirectory: /harness/
+                    privileged: true
+                    build:
+                      type: branch
+                      spec:
+                        branch: main
               - step:
                   identifier: echo
                   name: echo
@@ -47,9 +54,9 @@ pipeline:
                   timeout: ""
                   type: BuildAndPushDockerRegistry
           platform:
-            arch: Arm64
             os: MacOS
+            arch: Arm64
           runtime:
-            spec: {}
             type: Docker
+            spec: {}
         type: CI
