@@ -1,0 +1,26 @@
+inputSet:
+  pipeline:
+    identifier: jhttp
+    properties:
+      ci:
+        codebase:
+          build:
+            spec:
+              branch: main
+            type: branch
+    stages:
+      - stage:
+          identifier: Clone
+          type: CI
+          spec:
+            execution:
+              steps:
+                - step:
+                    identifier: dockerbuild
+                    type: BuildAndPushDockerRegistry
+                    spec:
+                      connectorRef: account.harnessImage
+  name: Default
+  identifier: Default
+  orgIdentifier: default
+  projectIdentifier: default_project
