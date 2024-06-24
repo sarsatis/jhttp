@@ -1,0 +1,55 @@
+pipeline:
+  identifier: Build_sarsatis_jhttp_1719255231403
+  name: Build jhttp
+  orgIdentifier: default
+  projectIdentifier: default_project
+  properties:
+    ci:
+      codebase:
+        build: <+input>
+        connectorRef: account.Github_OAuth_1719255138258
+        repoName: sarsatis/jhttp
+  stages:
+    - stage:
+        identifier: build
+        name: build
+        spec:
+          caching:
+            enabled: true
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  identifier: echo
+                  name: echo
+                  spec:
+                    command: echo hello world
+                  timeout: ""
+                  type: Run
+              - step:
+                  type: Run
+                  identifier: build_java_app
+                  name: Build Java App
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "Welcome to Harness CI"
+                      mvn -B package --file pom.xml
+              - step:
+                  identifier: dockerbuild
+                  name: docker_build
+                  spec:
+                    caching: true
+                    connectorRef: <+input>
+                    repo: hello/world
+                    tags:
+                      - latest
+                  timeout: ""
+                  type: BuildAndPushDockerRegistry
+          platform:
+            arch: Arm64
+            os: MacOS
+          runtime:
+            spec: {}
+            type: Docker
+        type: CI
