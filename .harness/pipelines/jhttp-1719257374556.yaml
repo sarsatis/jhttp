@@ -21,7 +21,7 @@ pipeline:
                     connectorRef: sarsatis
                     repoName: jhttp
                     cloneDirectory: /harness/
-                    privileged: true
+                    privileged: false
                     build:
                       type: branch
                       spec:
